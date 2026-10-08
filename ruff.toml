@@ -1,0 +1,25 @@
+# Ruff configuration.
+#
+# `annotations` is a __future__ import and is intentionally not flagged; ruff
+# handles that correctly, so no suppression is needed for it.
+target-version = "py38"
+line-length = 88
+
+[lint]
+select = [
+    "E",    # pycodestyle errors
+    "F",    # pyflakes
+    "W",    # pycodestyle warnings
+    "I",    # import sorting
+    "UP",   # pyupgrade
+    "B",    # bugbear
+    "SIM",  # simplify
+]
+ignore = [
+    "E501",  # line length is enforced for readability, not hard-wrapped
+    "B008",  # function calls in argument defaults are fine here
+]
+
+[lint.per-file-ignores]
+# Tests legitimately use long literals and local helpers.
+"tests/*" = ["E501", "B011"]

@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# All project metadata lives in setup.cfg, so that both old (<61, no PEP 621
+# support) and modern setuptools produce a correctly named, fully populated
+# wheel. Keeping metadata in one place avoids the two files disagreeing.
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
