@@ -168,10 +168,9 @@ The repository URL `https://github.com/junmeiW/confound-audit` is already set in
 `README.md` (CI badge) and in `SETUP_GITHUB.md`. One place still needs your
 attention:
 
-- **The manuscript** (`../MANUSCRIPT.md`, "Reusable diagnostic software"): two
-  placeholders remain — `[REPOSITORY URL / DOI TO BE INSERTED]` and
-  `[Zenodo DOI TO BE INSERTED]`. Put the repository URL in the first; mint the
-  DOI (section below) for the second.
+- **The manuscript** (`../MANUSCRIPT.md`, "Reusable diagnostic software"): **done**.
+  The repository URL and the Zenodo DOI (`10.5281/zenodo.23253177`) are both in the
+  text, and a software entry was added as reference [11].
 
 ### Check CI
 
@@ -193,11 +192,12 @@ journals prefer. Zenodo is the simplest route:
 2. Settings → GitHub → toggle **ON** for `confound-audit`.
 3. Back on GitHub, create a **release** (e.g. tag `v0.1.0`). Zenodo archives it
    and mints a DOI automatically.
-4. Put that DOI into the manuscript, replacing
-   `[Zenodo DOI TO BE INSERTED]`.
+4. Put that DOI into the manuscript.
 
-Do this **after** the first push, and again for any release you cite in the
-paper.
+**Status: done.** Release `v0.1.0` was archived as
+<https://doi.org/10.5281/zenodo.23253177> (concept DOI: it resolves to the latest
+version), and is cited as reference [11]. Repeat steps 3–4 for any future release
+you cite.
 
 ---
 
@@ -233,5 +233,5 @@ Check the name is still free first: <https://pypi.org/project/confound-audit/>
 - [ ] Confirm 28 files and no `dist/`, `__pycache__/`, `.pytest_cache/`
 - [ ] Create the empty GitHub repo (no README/licence)
 - [ ] Push, and confirm CI is green
-- [ ] Insert the repo URL (and later the Zenodo DOI) into `MANUSCRIPT.md`
-- [ ] Mint a Zenodo DOI and insert it into the manuscript
+- [x] Insert the repo URL and Zenodo DOI into `MANUSCRIPT.md`
+- [x] Mint a Zenodo DOI (`10.5281/zenodo.23253177`) and cite it as reference [11]
