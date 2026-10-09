@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/junmeiW/confound-audit/actions/workflows/ci.yml/badge.svg)](https://github.com/junmeiW/confound-audit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/junmeiW/confound-audit/blob/main/LICENSE)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23253177.svg)](https://doi.org/10.5281/zenodo.23253177)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23253176.svg)](https://doi.org/10.5281/zenodo.23253176)
 ![Python](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue)
 
 Detect **input-composition confounds** in mutation-induced embedding analyses
@@ -199,19 +199,20 @@ alongside:
 
 ```bibtex
 @software{confound_audit,
-  author  = {junmeiW},
+  author  = {Wang, Junmei},
   title   = {confound-audit: detect input-composition confounds in
              mutation-induced embedding analyses},
   year    = {2026},
   version = {0.1.0},
   doi     = {10.5281/zenodo.23253177},
-  url     = {https://doi.org/10.5281/zenodo.23253177},
+  url     = {https://doi.org/10.5281/zenodo.23253176},
 }
 ```
 
-The DOI above is a *concept* DOI: it always resolves to the most recent version.
-To cite the exact version you used, take the version DOI from the Zenodo record
-page instead.
+The DOI above is the **concept DOI**: it always resolves to the most recent
+version, which is what you normally want to cite. To pin the exact version you
+used, cite the version DOI instead — for v0.1.0 that is
+`10.5281/zenodo.23253177`.
 
 ## License
 

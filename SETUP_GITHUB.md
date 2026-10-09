@@ -23,7 +23,7 @@ will not appear on your profile. Set a real identity:
 cd /Users/junmei/Documents/aiwork/esm-project/confound-audit
 
 # this repository only (recommended here — leaves the analysis repo unchanged)
-git config user.name  "junmeiW"
+git config user.name  "Junmei Wang"
 git config user.email "you@example.com"      # <- put a real address here
 ```
 
