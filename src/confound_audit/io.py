@@ -19,7 +19,6 @@ via :func:`from_arrays`.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Optional, Tuple
 
 import numpy as np
 
@@ -56,7 +55,7 @@ class DataBundle(dict):
         return f"DataBundle(n={n}, dims={d}, keys=[{keys}])"
 
 
-def _validate(assay, cls, vecs) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+def _validate(assay, cls, vecs) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     assay = np.asarray(assay)
     cls = np.asarray(cls)
     vecs = np.asarray(vecs, dtype=float)
@@ -85,7 +84,7 @@ def from_arrays(assay, cls, vecs, wt=None, mut=None, pos=None,
     return b
 
 
-def _first_present(z, *names) -> Optional[np.ndarray]:
+def _first_present(z, *names) -> np.ndarray | None:
     for n in names:
         if n in z:
             return z[n]

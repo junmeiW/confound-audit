@@ -9,8 +9,6 @@ constructive zero is not a finding, and an association is not a prediction.
 
 from __future__ import annotations
 
-from typing import Dict
-
 __all__ = ["to_text", "to_markdown"]
 
 
@@ -34,7 +32,7 @@ def _fmt_p(x) -> str:
     return f"{v:.3g}"
 
 
-def to_text(report: Dict) -> str:
+def to_text(report: dict) -> str:
     """Plain-text report."""
     L = []
     add = L.append
@@ -104,7 +102,7 @@ def to_text(report: Dict) -> str:
     return "\n".join(L)
 
 
-def to_markdown(report: Dict) -> str:
+def to_markdown(report: dict) -> str:
     """Markdown report (suitable for supplementary material)."""
     L = []
     add = L.append

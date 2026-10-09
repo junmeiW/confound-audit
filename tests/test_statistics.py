@@ -5,13 +5,21 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from confound_audit.baselines import (AA_ORDER, N_AA, onehot_delta,
-                                      random_lookup, replacement_pair,
-                                      unknown_fraction)
-from confound_audit.clustering import (cluster_bootstrap_ci,
-                                       cluster_one_sample_test,
-                                       cluster_paired_test, per_protein,
-                                       uniprot_of)
+from confound_audit.baselines import (
+    AA_ORDER,
+    N_AA,
+    onehot_delta,
+    random_lookup,
+    replacement_pair,
+    unknown_fraction,
+)
+from confound_audit.clustering import (
+    cluster_bootstrap_ci,
+    cluster_one_sample_test,
+    cluster_paired_test,
+    per_protein,
+    uniprot_of,
+)
 from confound_audit.core import CLASSES
 from confound_audit.matching import match_indices, matched_effect
 from confound_audit.permutation import permutation_null, stratified_null_report

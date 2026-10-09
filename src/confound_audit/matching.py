@@ -24,8 +24,6 @@ composition-only encoding.
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional
-
 import numpy as np
 
 from .core import CLASSES, bootstrap_ci, mean_direction
@@ -34,7 +32,7 @@ __all__ = ["match_indices", "matched_effect"]
 
 
 def match_indices(assay, cls, wt, mut, how: str = "pair", seed: int = 0,
-                  min_kept: int = 6) -> Dict:
+                  min_kept: int = 6) -> dict:
     """Select balanced, substitution-matched indices within each assay.
 
     Parameters
@@ -72,7 +70,7 @@ def match_indices(assay, cls, wt, mut, how: str = "pair", seed: int = 0,
     else:
         key_all = np.full(len(wt), "all", dtype=object)
 
-    kept: List = []
+    kept: list = []
     n_dropped_small = 0
 
     for aid in np.unique(assay):
@@ -81,7 +79,7 @@ def match_indices(assay, cls, wt, mut, how: str = "pair", seed: int = 0,
         key = key_all[sel]
         idx_local = np.where(sel)[0]
 
-        pick: List[int] = []
+        pick: list[int] = []
         for k in np.unique(key):
             same = key == k
             ih = idx_local[np.where(same & (c == "highly"))[0]]
@@ -111,8 +109,8 @@ def match_indices(assay, cls, wt, mut, how: str = "pair", seed: int = 0,
     )
 
 
-def _effect_on_subset(assay, cls, vecs, idx) -> Optional[float]:
-    a_, c_, v_ = assay[idx], cls[idx], vecs[idx]
+def _effect_on_subset(assay, cls, vecs, idx) -> float | None:
+    c_, v_ = cls[idx], vecs[idx]
     dirs = {}
     for k in CLASSES:
         sub = v_[c_ == k]
@@ -124,7 +122,7 @@ def _effect_on_subset(assay, cls, vecs, idx) -> Optional[float]:
 
 
 def matched_effect(assay, cls, vecs, wt, mut, how: str = "pair", seed: int = 0,
-                   expect_degenerate: bool = False) -> Dict:
+                   expect_degenerate: bool = False) -> dict:
     """Effect statistic after substitution-type matching.
 
     Returns a dict with ``effect``, ``p`` (one-sided), ``p_two``,
@@ -143,8 +141,8 @@ def matched_effect(assay, cls, vecs, wt, mut, how: str = "pair", seed: int = 0,
     vecs = np.asarray(vecs, dtype=float)
 
     m = match_indices(assay, cls, wt, mut, how=how, seed=seed)
-    per_assay: List[Dict] = []
-    effs: List[float] = []
+    per_assay: list[dict] = []
+    effs: list[float] = []
     for aid, idx in m["kept"]:
         e = _effect_on_subset(assay, cls, vecs, idx)
         if e is None:

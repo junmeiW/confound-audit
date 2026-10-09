@@ -21,7 +21,7 @@ decomposition, and the wording matters.
 
 from __future__ import annotations
 
-from typing import Dict, Optional, Sequence
+from typing import Sequence
 
 import numpy as np
 
@@ -79,10 +79,10 @@ def permutation_null(assay, cls, vecs, n_perm: int = 200, strat: str = "position
     return null
 
 
-def stratified_null_report(assay, cls, vecs, observed: Optional[float] = None,
+def stratified_null_report(assay, cls, vecs, observed: float | None = None,
                            n_perm: int = 200, seed: int = 0,
                            pos=None, wt=None,
-                           strata: Sequence[str] = _STRATA) -> Dict:
+                           strata: Sequence[str] = _STRATA) -> dict:
     """Run every available stratum and report the retained fraction.
 
     ``retained = null_mean / observed`` is reported as a *retained fraction of
@@ -90,7 +90,7 @@ def stratified_null_report(assay, cls, vecs, observed: Optional[float] = None,
     """
     if observed is None:
         observed, _ = effect_from_vectors(assay, cls, vecs)
-    out: Dict = {"observed": float(observed), "n_perm": int(n_perm),
+    out: dict = {"observed": float(observed), "n_perm": int(n_perm),
                  "strata": {}}
     for s in strata:
         try:

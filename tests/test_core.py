@@ -4,9 +4,16 @@ from __future__ import annotations
 
 import numpy as np
 
-from confound_audit.core import (CLASSES, bootstrap_ci, effect_from_vectors,
-                                 mean_direction, normed, one_sample_test,
-                                 paired_test, per_assay_effects)
+from confound_audit.core import (
+    CLASSES,
+    bootstrap_ci,
+    effect_from_vectors,
+    mean_direction,
+    normed,
+    one_sample_test,
+    paired_test,
+    per_assay_effects,
+)
 
 
 def test_normed_unit_length():

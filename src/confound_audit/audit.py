@@ -18,13 +18,13 @@ variance decomposition.
 
 from __future__ import annotations
 
-from typing import Dict, Sequence
+from typing import Sequence
 
 import numpy as np
 
 from . import baselines as _bl
-from .core import effect_from_vectors, one_sample_test
 from .clustering import cluster_one_sample_test
+from .core import effect_from_vectors, one_sample_test
 from .matching import matched_effect
 from .permutation import stratified_null_report
 
@@ -36,7 +36,7 @@ def _bl_groups_default(assay_id) -> str:
     return str(assay_id)
 
 
-def _as_mapping(groups, assay) -> Dict:
+def _as_mapping(groups, assay) -> dict:
     """Accept either a per-mutation ``groups`` array or an ``{assay: cluster}``
     mapping and normalise to the latter."""
     if isinstance(groups, dict):
@@ -54,7 +54,7 @@ def _as_mapping(groups, assay) -> Dict:
 def audit(assay, cls, vecs, *, wt=None, mut=None, pos=None, groups=None,
           n_perm: int = 200, seed: int = 0, n_boot: int = 5000,
           strata: Sequence[str] = ("assay", "position", "wt_aa"),
-          run_matching: bool = True, run_baselines: bool = True) -> Dict:
+          run_matching: bool = True, run_baselines: bool = True) -> dict:
     """Run the confound audit.
 
     Parameters
@@ -88,7 +88,7 @@ def audit(assay, cls, vecs, *, wt=None, mut=None, pos=None, groups=None,
         raise ValueError("assay, cls and vecs must have equal length")
 
     observed, n_assay = effect_from_vectors(assay, cls, vecs)
-    report: Dict = {
+    report: dict = {
         "n_mutations": int(len(vecs)),
         "n_assays": int(n_assay),
         "observed_effect": float(observed),
@@ -117,7 +117,7 @@ def audit(assay, cls, vecs, *, wt=None, mut=None, pos=None, groups=None,
     # --- check 1: zero-parameter baselines ----------------------------------
     if run_baselines and wt is not None and mut is not None:
         unknown = _bl.unknown_fraction(wt, mut)
-        bl: Dict = {"unknown_residue_fraction": unknown,
+        bl: dict = {"unknown_residue_fraction": unknown,
                     "note": ("zero-parameter and untrained; if these match the "
                              "observed statistic the effect is attributable to "
                              "input composition")}
@@ -140,12 +140,12 @@ def audit(assay, cls, vecs, *, wt=None, mut=None, pos=None, groups=None,
     report["permutation"] = stratified_null_report(
         assay, cls, vecs, observed=observed, n_perm=n_perm, seed=seed,
         pos=pos, wt=wt, strata=strata)
-    for s, d in report["permutation"]["strata"].items():
+    for d in report["permutation"]["strata"].values():
         d.pop("null", None)  # keep the report small; arrays are rerunnable
 
     # --- check 3: strict substitution-type matching -------------------------
     if run_matching and wt is not None and mut is not None:
-        m: Dict = {}
+        m: dict = {}
         for how in ("none", "wt", "pair"):
             try:
                 res = matched_effect(assay, cls, vecs, wt, mut, how=how,
@@ -170,10 +170,9 @@ def audit(assay, cls, vecs, *, wt=None, mut=None, pos=None, groups=None,
     return report
 
 
-def _interpret(report: Dict) -> Dict[str, str]:
+def _interpret(report: dict) -> dict[str, str]:
     """Turn the numbers into the package's standing caveats."""
-    out: Dict[str, str] = {}
-    obs = report.get("observed_effect", float("nan"))
+    out: dict[str, str] = {}
     perm = report.get("permutation", {}).get("strata", {})
     pos = perm.get("position", {}).get("retained")
 
@@ -221,11 +220,11 @@ def _interpret(report: Dict) -> Dict[str, str]:
             "This must not be extrapolated to a trained model."
         )
     clust = report.get("clustered", {})
-    if clust.get("n_cluster") and clust.get("n_unit"):
-        if clust["n_cluster"] < clust["n_unit"]:
-            out["clustering"] = (
-                f"{clust['n_unit']} units fall into {clust['n_cluster']} "
-                f"clusters. Inference is reported clustered, since units "
-                f"within a cluster are not independent replicates."
-            )
+    if (clust.get("n_unit") and clust.get("n_cluster")
+            and clust["n_cluster"] < clust["n_unit"]):
+        out["clustering"] = (
+            f"{clust['n_unit']} units fall into {clust['n_cluster']} "
+            f"clusters. Inference is reported clustered, since units "
+            f"within a cluster are not independent replicates."
+        )
     return out

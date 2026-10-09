@@ -26,12 +26,23 @@ overstate what each one shows.
 from __future__ import annotations
 
 from .audit import audit
-from .baselines import (AA_ORDER, N_AA, onehot_delta, random_lookup,
-                        replacement_pair)
-from .clustering import (cluster_bootstrap_ci, cluster_one_sample_test,
-                         cluster_paired_test, per_protein, uniprot_of)
-from .core import (CLASSES, bootstrap_ci, effect_from_vectors, normed,
-                   one_sample_test, paired_test, per_assay_effects)
+from .baselines import AA_ORDER, N_AA, onehot_delta, random_lookup, replacement_pair
+from .clustering import (
+                        cluster_bootstrap_ci,
+                        cluster_one_sample_test,
+                        cluster_paired_test,
+                        per_protein,
+                        uniprot_of,
+)
+from .core import (
+                        CLASSES,
+                        bootstrap_ci,
+                        effect_from_vectors,
+                        normed,
+                        one_sample_test,
+                        paired_test,
+                        per_assay_effects,
+)
 from .io import DataBundle, from_arrays, load_csv, load_npz
 from .matching import match_indices, matched_effect
 from .permutation import permutation_null, stratified_null_report

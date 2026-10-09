@@ -46,20 +46,15 @@ def compositional_data(rng):
     p_hi = np.array([.3, .3, .3] + [.01] * 17)
     p_hi = p_hi / p_hi.sum()
     for a in range(6):
-        p = 0
-        for _ in range(90):
+        for p, _ in enumerate(range(90)):
             c = rng.choice(["highly", "moderately", "unfit"])
-            if c == "highly":
-                w = rng.choice(list(AA), p=p_hi)
-            else:
-                w = rng.choice(list(AA))
+            w = rng.choice(list(AA), p=p_hi) if c == "highly" else rng.choice(list(AA))
             m = rng.choice([x for x in AA if x != w])
             assay.append(f"ds{a}")
             cls.append(c)
             wt.append(w)
             mut.append(m)
             pos.append(p)
-            p += 1
     from confound_audit.baselines import onehot_delta
     vecs = onehot_delta(wt, mut).astype(float)
     return (np.array(assay), np.array(cls), vecs, np.array(wt), np.array(mut),

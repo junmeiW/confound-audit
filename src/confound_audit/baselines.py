@@ -13,8 +13,6 @@ return an ``(n, d)`` array of displacement vectors.
 
 from __future__ import annotations
 
-from typing import Optional
-
 import numpy as np
 
 __all__ = [
@@ -85,7 +83,7 @@ def replacement_pair(wt, mut) -> np.ndarray:
 
 
 def random_lookup(wt, mut, dim: int, seed: int = 0,
-                  table: Optional[np.ndarray] = None) -> np.ndarray:
+                  table: np.ndarray | None = None) -> np.ndarray:
     """Random amino-acid lookup table, ``table[mut] - table[wt]``.
 
     Isomorphic to a neural embedding table, but untrained. ``table`` may be

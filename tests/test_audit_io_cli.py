@@ -7,8 +7,7 @@ import json
 import numpy as np
 import pytest
 
-from confound_audit import (audit, from_arrays, load_csv, load_npz, to_markdown,
-                            to_text)
+from confound_audit import audit, from_arrays, load_csv, load_npz, to_markdown, to_text
 from confound_audit.cli import main as cli_main
 
 

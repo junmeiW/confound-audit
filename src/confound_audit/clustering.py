@@ -18,8 +18,6 @@ Both take an explicit ``groups`` array so they work with any clustering
 
 from __future__ import annotations
 
-from typing import Dict, Tuple
-
 import numpy as np
 from scipy import stats
 
@@ -38,7 +36,7 @@ def uniprot_of(assay_id: str) -> str:
     return parts[0] if len(parts) > 1 else str(assay_id)
 
 
-def per_protein(values, groups) -> Tuple[np.ndarray, np.ndarray]:
+def per_protein(values, groups) -> tuple[np.ndarray, np.ndarray]:
     """Average ``values`` within each group; drop non-finite entries."""
     values = np.asarray(values, float)
     groups = np.asarray(groups)
@@ -51,7 +49,7 @@ def per_protein(values, groups) -> Tuple[np.ndarray, np.ndarray]:
 
 
 def cluster_bootstrap_ci(values, groups, n_boot: int = 10000, seed: int = 42,
-                         alpha: float = 0.05) -> Dict[str, float]:
+                         alpha: float = 0.05) -> dict[str, float]:
     """Percentile CI of the mean, resampling whole clusters with replacement.
 
     Every member of a drawn cluster is included, so within-cluster
@@ -79,7 +77,7 @@ def cluster_bootstrap_ci(values, groups, n_boot: int = 10000, seed: int = 42,
                 n_unit=int(len(values)), n_cluster=int(k))
 
 
-def cluster_paired_test(values, groups) -> Dict[str, float]:
+def cluster_paired_test(values, groups) -> dict[str, float]:
     """Two-sided paired test for a **difference** series, clustered.
 
     ``values`` are per-unit differences (e.g. E_pretrained - E_random for each
@@ -104,7 +102,7 @@ def cluster_paired_test(values, groups) -> Dict[str, float]:
                 frac_positive=float(np.mean(pv > 0)))
 
 
-def cluster_one_sample_test(values, groups) -> Dict[str, float]:
+def cluster_one_sample_test(values, groups) -> dict[str, float]:
     """Cluster-collapsed one-sample test of an effect against zero.
 
     Reports both one- and two-sided p-values; the two-sided value is the

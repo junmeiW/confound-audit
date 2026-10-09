@@ -87,6 +87,7 @@ def test_paired_difference_is_not_significant():
     """The headline null result: on identical mutations the pretrained model
     does not differ from the zero-parameter baseline."""
     import pandas as pd
+
     from confound_audit.core import paired_test
     df = pd.read_csv(_figdata()).dropna(subset=["onehot_same", "esm"])
     r = paired_test(df["esm"].values, df["onehot_same"].values)
@@ -99,7 +100,8 @@ def test_clustered_p_matches_reference_json():
     p = _esm_project() / "results" / "17_clustered_stats.json"
     if not p.exists():
         pytest.skip("clustered reference json absent")
-    d = json.load(open(p))
+    with open(p) as fh:
+        d = json.load(fh)
     got = d["effects"]["onehot20"]["protein_p_two"]
     assert abs(got - PUBLISHED_ONEHOT_CLUSTERED_P) < 1e-30
 

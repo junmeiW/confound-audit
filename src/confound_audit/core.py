@@ -14,7 +14,7 @@ encodings, random lookup tables, or any other vector representation.
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional, Sequence, Tuple
+from typing import Sequence
 
 import numpy as np
 from scipy import stats
@@ -32,7 +32,7 @@ __all__ = [
 ]
 
 #: The three fitness classes, in the canonical order used throughout.
-CLASSES: Tuple[str, str, str] = ("highly", "moderately", "unfit")
+CLASSES: tuple[str, str, str] = ("highly", "moderately", "unfit")
 
 
 def normed(v: np.ndarray) -> np.ndarray:
@@ -57,7 +57,7 @@ def mean_direction(sub: np.ndarray) -> np.ndarray:
     return normed(u.mean(0))
 
 
-def assay_directions(cls: np.ndarray, vecs: np.ndarray) -> Dict[str, np.ndarray]:
+def assay_directions(cls: np.ndarray, vecs: np.ndarray) -> dict[str, np.ndarray]:
     """Mean direction per fitness class within a *single* assay's data.
 
     Returns a dict keyed by class name. Classes with fewer than 2 mutations
@@ -66,7 +66,7 @@ def assay_directions(cls: np.ndarray, vecs: np.ndarray) -> Dict[str, np.ndarray]
     """
     vecs = np.asarray(vecs, dtype=float)
     cls = np.asarray(cls)
-    dirs: Dict[str, np.ndarray] = {}
+    dirs: dict[str, np.ndarray] = {}
     for k in CLASSES:
         sub = vecs[cls == k]
         if len(sub) < 2:
@@ -76,7 +76,7 @@ def assay_directions(cls: np.ndarray, vecs: np.ndarray) -> Dict[str, np.ndarray]
 
 
 def _effect_one_assay(assay: np.ndarray, cls: np.ndarray, vecs: np.ndarray
-                      ) -> Optional[float]:
+                      ) -> float | None:
     """Effect for one assay, or ``None`` if a class is under-populated."""
     dirs = assay_directions(cls, vecs)
     if len(dirs) < 3:
@@ -86,7 +86,7 @@ def _effect_one_assay(assay: np.ndarray, cls: np.ndarray, vecs: np.ndarray
 
 
 def effect_from_vectors(assay: np.ndarray, cls: np.ndarray, vecs: np.ndarray
-                        ) -> Tuple[float, int]:
+                        ) -> tuple[float, int]:
     """Effect statistic averaged over assays.
 
     Computes, per assay::
@@ -100,7 +100,7 @@ def effect_from_vectors(assay: np.ndarray, cls: np.ndarray, vecs: np.ndarray
     averaging cancels the signal). Only the scalar effects are averaged.
     """
     assay = np.asarray(assay)
-    pairs: List[float] = []
+    pairs: list[float] = []
     for aid in np.unique(assay):
         sel = assay == aid
         e = _effect_one_assay(assay[sel], cls[sel], vecs[sel])
@@ -112,8 +112,8 @@ def effect_from_vectors(assay: np.ndarray, cls: np.ndarray, vecs: np.ndarray
 
 
 def per_assay_effects(assay: np.ndarray, cls: np.ndarray, vecs: np.ndarray,
-                      mag: Optional[np.ndarray] = None,
-                      lo_mag: bool = False) -> List[Dict]:
+                      mag: np.ndarray | None = None,
+                      lo_mag: bool = False) -> list[dict]:
     """Per-assay detail: the two cosines and their difference.
 
     ``mag``/``lo_mag`` optionally restrict to the lower third of a magnitude
@@ -121,7 +121,7 @@ def per_assay_effects(assay: np.ndarray, cls: np.ndarray, vecs: np.ndarray,
     the restriction is skipped, matching the reference implementation.
     """
     assay = np.asarray(assay)
-    rows: List[Dict] = []
+    rows: list[dict] = []
     for aid in np.unique(assay):
         sel = assay == aid
         c_, v_ = np.asarray(cls)[sel], np.asarray(vecs)[sel]
@@ -143,7 +143,7 @@ def per_assay_effects(assay: np.ndarray, cls: np.ndarray, vecs: np.ndarray,
 # ---------------------------------------------------------------------------
 # Tests
 # ---------------------------------------------------------------------------
-def paired_test(a: np.ndarray, b: np.ndarray) -> Dict[str, float]:
+def paired_test(a: np.ndarray, b: np.ndarray) -> dict[str, float]:
     """Paired t-test of ``a`` vs ``b`` across paired units (e.g. assays).
 
     Returns **both** the one-sided (``p``) and two-sided (``p_two``) p-value,
@@ -167,7 +167,7 @@ def paired_test(a: np.ndarray, b: np.ndarray) -> Dict[str, float]:
                 p_two=float(p_two), dz=dz, n=int(len(a)))
 
 
-def one_sample_test(x: np.ndarray) -> Dict[str, float]:
+def one_sample_test(x: np.ndarray) -> dict[str, float]:
     """One-sample t-test of ``x`` against zero, one- and two-sided."""
     x = np.asarray(x, float)
     x = x[np.isfinite(x)]
@@ -181,7 +181,7 @@ def one_sample_test(x: np.ndarray) -> Dict[str, float]:
 
 
 def bootstrap_ci(x: np.ndarray, n_boot: int = 5000, seed: int = 0,
-                 alpha: float = 0.05) -> Tuple[float, float, float]:
+                 alpha: float = 0.05) -> tuple[float, float, float]:
     """Percentile bootstrap CI of the mean, resampling **units**.
 
     ``units`` here are whatever the caller passes: assay-level values give an
@@ -201,7 +201,7 @@ def bootstrap_ci(x: np.ndarray, n_boot: int = 5000, seed: int = 0,
             float(np.quantile(means, 1 - alpha / 2)))
 
 
-def collinearity_v(a: Sequence, b: Sequence) -> Dict[str, float]:
+def collinearity_v(a: Sequence, b: Sequence) -> dict[str, float]:
     """Cramér's V between two categorical variables.
 
     Used to quantify how imbalanced substitution composition is with respect

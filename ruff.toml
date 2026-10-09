@@ -2,6 +2,12 @@
 #
 # `annotations` is a __future__ import and is intentionally not flagged; ruff
 # handles that correctly, so no suppression is needed for it.
+#
+# Note on UP006/UP045 (modernising typing.Dict -> dict): every source file
+# starts with `from __future__ import annotations`, so builtin generics in
+# annotations are never evaluated at runtime and are therefore safe on
+# Python 3.8. If a future file omits that import, UP006 must not be applied to
+# it — module-level annotations would raise TypeError on 3.8.
 target-version = "py38"
 line-length = 88
 
